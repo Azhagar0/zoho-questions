@@ -1,0 +1,152 @@
+#include<stdio.h>
+#include<conio.h>
+#include<time.h>
+
+int p1=0,p2=0;
+	void board(int a[10][10])
+ {
+	int alt=0,decen=100,acen=0;
+	int i,j;
+ for(i=0;i<10;i++)
+ {
+     for(j=0;j<10;j++)
+     {
+
+	  if(alt==0)
+        {
+	           a[i][j]=decen;
+	           if(a[i][j]==p1)
+	           printf("#p1  ",a[i][j]);
+
+	           else if(a[i][j]==p2)
+	           printf("#p2  ",a[i][j]);
+
+	           else
+	           printf("%d  ",a[i][j]);
+
+
+            	if(a[i][j]%10==1)
+                 	 {
+	                    printf("\n");
+	                    alt=1;
+	                    acen=(a[i][j]-=10);
+	                 }
+             decen--; //decrement the value
+       }
+
+    else
+       {
+	        a[i][j]=acen;
+	            if(a[i][j]==p1)
+	            printf("#p1  ",a[i][j]);
+
+	            else if(a[i][j]==p2)
+	            printf("#p2  ",a[i][j]);
+
+	            else
+	            printf("%d  ",a[i][j]);
+
+           	if(a[i][j]%10==0)
+	            {
+	               printf("\n");
+	               alt=0;
+	               decen=(a[i][j]-=10);
+             	}
+        acen++;   //increment value
+     
+       }
+    }
+ }
+
+}
+ int move(int  player, int dice)
+ {
+ int i,newsquare;
+    int newpost=player+dice;
+
+    int SandL[101];
+    for( i =1;i<=100;i++)
+    {
+	SandL[i]=0;
+    }
+
+    //position of snake and ladder
+
+    SandL[20]=40;
+    SandL[11]=33;
+    SandL[25]=68;
+    SandL[42]=77;
+    SandL[86]=-12;
+    SandL[41]=-35;
+    SandL[88]=-62;
+    SandL[78]=-24;
+
+     newsquare = newpost + SandL[newpost];
+     if(newsquare >100)
+      return player;
+    return newsquare;
+ }
+ int main()
+ {
+	int a[10][10];
+	int roll;
+	int ctplayer=1,win=0;
+	clrscr();
+	//int p1,p2;
+	printf("GAME START\n");
+	while(!win)
+	{
+	    printf("\nplayer %d press enter to move",ctplayer);
+	    getchar();
+	    srand(time(0));
+	     roll=rand()%6+1;
+	    printf("your dice number is :%d",roll);
+
+	    if(ctplayer==1)
+	    {
+		p1=move(p1,roll);
+
+		printf("\nplayer 1 placed at :%d\n",p1);
+		board(a);
+		if(p1==100)
+		{
+		 printf("\nplayer 1 win");
+		 win=1;
+		}
+
+	    }
+
+	    else
+	    {
+		p2=move(p2,roll);
+		printf("\nplayer 2 placed at :%d\n",p2);
+		board(a);
+		if(p2==100)
+		{
+		    printf("\nplayer 2 win");
+		    win=1;
+		}
+	    }
+
+	    //switch
+
+	    if(ctplayer==1)
+	     ctplayer=2;
+	    else
+	     ctplayer=1;
+
+	}
+
+
+
+
+
+    getch();
+    return 0;
+ }
+
+
+
+
+
+
